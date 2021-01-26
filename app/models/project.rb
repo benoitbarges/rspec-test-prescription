@@ -1,6 +1,7 @@
 class Project < ApplicationRecord
+  has_many :tasks
 
   def done?
-    true
+    tasks.empty?
   end
 end
