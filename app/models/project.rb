@@ -16,4 +16,8 @@ class Project < ApplicationRecord
   def remaining_size
     incomplete_tasks.sum(&:size)
   end
+
+  def completed_velocity
+    tasks.sum(&:points_toward_velocity)
+  end
 end
