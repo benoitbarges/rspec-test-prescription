@@ -1,8 +1,12 @@
 class Project < ApplicationRecord
   has_many :tasks
 
+  def incomplete_tasks
+    tasks.reject(&:complete?)
+  end
+
   def done?
-    tasks.all?(&:complete?)
+    incomplete_tasks.empty?
   end
 
   def total_size
@@ -10,6 +14,6 @@ class Project < ApplicationRecord
   end
 
   def remaining_size
-    tasks.reject(&:complete?).sum(&:size)
+    incomplete_tasks.sum(&:size)
   end
 end
