@@ -2,7 +2,7 @@ class Task < ApplicationRecord
   belongs_to :project
 
   def mark_completed(date = Time.current)
-    self.update(completed_at: date)
+    self.completed_at = date
   end
 
   def complete?
