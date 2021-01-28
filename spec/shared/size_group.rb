@@ -1,3 +1,6 @@
+# need to add this line in rails_helper.rb
+# Dir[Rails.root.join('spec/shared/**/*.rb')].each { |f| require f }
+
 RSpec.shared_examples 'sizeable' do
   let(:instance) { described_class.new }
 

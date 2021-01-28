@@ -6,6 +6,12 @@ RSpec.describe Project, type: :model do
 
   it_should_behave_like 'sizeable'
 
+  # or you can custom it >>
+
+  # it_should_behave_like 'sizeable' do
+  #   let(:instance) { Project.new }
+  # end
+
   it 'considers a project with no tasks to be done' do
     expect(project.done?).to be_truthy
   end
@@ -40,7 +46,8 @@ RSpec.describe Project, type: :model do
     end
 
     it 'can calculate total size' do
-      expect(project.size).to eq(10)
+      expect(project).to be_of_size(10)
+      expect(project).not_to be_of_size(5)
     end
 
     it 'can calculate remaining size' do
