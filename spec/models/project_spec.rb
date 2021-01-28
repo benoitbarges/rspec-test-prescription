@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Project, type: :model do
-  let(:project) { Project.new }
-  let(:task) { Task.new }
 
   it_should_behave_like 'sizeable'
 
@@ -12,26 +10,33 @@ RSpec.describe Project, type: :model do
   #   let(:instance) { Project.new }
   # end
 
-  it 'considers a project with no tasks to be done' do
-    expect(project.done?).to be_truthy
+  describe 'without a taks' do
+    let(:project) { FactoryBot.build_stubbed(:project) }
+
+    it 'considers a project with no tasks to be done' do
+      expect(project.done?).to be_truthy
+    end
+
+    it 'properly handles a blank project' do
+      expect(project.completed_velocity).to eq(0)
+      expect(project.current_rate).to eq(0)
+      expect(project.projected_days_remaining).to be_nan
+      expect(project).not_to be_on_schedule
+    end
   end
 
-  it 'knows that a project with an incomplete task is not done' do
-    project.tasks << task
-    expect(project.done?).to be_falsy
-  end
+  describe 'with a task' do
+    let(:project) { FactoryBot.build_stubbed(:project, tasks: [task]) }
+    let(:task) { FactoryBot.build_stubbed(:task) }
 
-  it 'marks a project done if its tasks are done' do
-    project.tasks << task
-    task.mark_completed
-    expect(project).to be_done
-  end
+    it 'knows that a project with an incomplete task is not done' do
+      expect(project.done?).to be_falsy
+    end
 
-  it 'properly handles a blank project' do
-    expect(project.completed_velocity).to eq(0)
-    expect(project.current_rate).to eq(0)
-    expect(project.projected_days_remaining).to be_nan
-    expect(project).not_to be_on_schedule
+    it 'marks a project done if its tasks are done' do
+      task.mark_completed
+      expect(project).to be_done
+    end
   end
 
   describe 'estimates' do
