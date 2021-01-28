@@ -3,6 +3,8 @@ class Project < ApplicationRecord
 
   validates :name, presence: true
 
+  include Sizeable
+
   def self.velocity_length_in_days
     21
   end
@@ -15,7 +17,7 @@ class Project < ApplicationRecord
     incomplete_tasks.empty?
   end
 
-  def total_size
+  def size
     tasks.sum(&:size)
   end
 
