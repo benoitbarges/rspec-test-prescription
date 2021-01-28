@@ -35,7 +35,7 @@ RSpec.describe Project, type: :model do
   end
 
   describe 'estimates' do
-    let(:project) { Project.new }
+    let(:project) { Project.new(name: 'Project Runway') }
     let(:newly_done) { Task.new(size: 3, completed_at: 1.day.ago) }
     let(:old_done) { Task.new(size: 2, completed_at: 6.months.ago) }
     let(:small_not_done) { Task.new(size: 1) }
